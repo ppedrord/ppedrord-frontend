@@ -1,0 +1,45 @@
+.button {
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
+}
+
+.iconOnly {
+  padding: 0.55rem;
+  display: grid;
+  place-items: center;
+  line-height: 0;
+}
+
+.primary {
+  background-color: var(--link-color, #007bff);
+  color: white;
+}
+
+.primary:hover {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+}
+
+/* Variante cinza/contorno reutilizável */
+.secondary {
+  background: transparent;
+  border: 1px solid var(--separator, #ccc);
+  color: var(--text-color);
+  transition: background-color 0.2s ease;
+}
+.secondary:hover {
+  background: rgba(0 0 0 / 0.05);
+}
+[data-theme='dark'] .secondary:hover {
+  background: rgba(255 255 255 / 0.08);
+}

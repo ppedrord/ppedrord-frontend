@@ -1,0 +1,80 @@
+.header {
+  position: fixed; /* Cabeçalho fixo */
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--header-bg, #f8f9fa);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  padding: 0.8rem 0;
+  transition: background-color 0.3s ease;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logoLink {
+  display: inline-block; /* Garante que o link se ajuste ao tamanho da imagem */
+}
+
+.logo {
+  height: 40px; /* Ajuste a altura conforme necessário */
+  width: auto;
+  display: block; /* Remove espaço extra abaixo da imagem */
+  /* O filtro para dark mode pode ser aplicado aqui ou via variável CSS global */
+  /* filter: var(--logo-filter); */
+}
+
+.nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 1.5rem; /* Espaçamento entre itens */
+}
+
+.nav a {
+  color: var(--text-color, #333);
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.nav a:hover {
+  color: var(--link-color, #007bff);
+  text-decoration: none;
+}
+
+.themeToggle {
+  background: none;
+  border: 1px solid var(--text-color, #ccc);
+  color: var(--text-color, #333);
+  padding: 0.4rem 0.8rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.themeToggle:hover {
+  background-color: var(--text-color, #eee);
+  color: var(--background-color, #333);
+}
+
+/* Adicione media queries para responsividade */
+@media (max-width: 768px) {
+  .nav {
+    display: none; /* Esconder navegação em telas menores (implementar menu hambúrguer depois) */
+  }
+  .container {
+    justify-content: space-between; /* Ajusta logo e botão de tema */
+  }
+}
