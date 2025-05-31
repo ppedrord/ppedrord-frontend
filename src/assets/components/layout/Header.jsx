@@ -3,9 +3,8 @@ import styles from './Header.module.css';
 import DarkModeToggle from '../common/DarkModeToggle/DarkModeToggle';
 import { useTheme } from '../../contexts/ThemeContext';
 
-// Supondo que as logos estão na pasta public/
-const logoBlack = '/pb-logo-black.svg';
-const logoWhite = '/pb-logo-white.svg';
+import logoBlack from './icons/pb-logo-black.svg';
+import logoWhite from './icons/pb-logo-white.png';
 
 function Header() {
   const { theme } = useTheme();
@@ -16,7 +15,7 @@ function Header() {
   return (
     <header className={styles.header}>
       <div className={styles.container}>
-        <a href="#inicio" className={styles.logoLink}>
+        <a href="#" className={styles.logoLink}>
           <img
             src={currentLogo}
             alt="Logo ppedrord"

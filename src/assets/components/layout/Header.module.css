@@ -24,10 +24,14 @@
 }
 
 .logo {
-  height: 40px; /* Ajuste a altura conforme necessário */
+  height: 40px;
   width: auto;
-  display: block; /* Remove espaço extra abaixo da imagem */
-  /* O filtro para dark mode pode ser aplicado aqui ou via variável CSS global */
+  display: block;
+  /* opacity: 0; */
+  /* inset: 0; */
+  /* margin: auto; */
+  transform: scale(0.6) rotate(-90deg) 0.4s;
+
   /* filter: var(--logo-filter); */
 }
 
