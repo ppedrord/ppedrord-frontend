@@ -20,6 +20,7 @@ function Header() {
           <img
             src={currentLogo}
             alt="Logo ppedrord"
+            itemType="image/svg+xml"
             className={styles.logo}
           />
         </a>
