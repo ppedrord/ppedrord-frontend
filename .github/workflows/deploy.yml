@@ -35,7 +35,7 @@ jobs:
 
       - name: Deploy static site to S3 bucket
         run: |
-          aws s3 sync dist/ s3://ppedrord-frontend-site-data --delete
+          aws s3 sync dist/ s3://frontend-ppedrord-prod --delete
         # Substitua "ppedrord-frontend-site-data" pelo nome exato do seu bucket S3
         # A flag --delete remove arquivos do bucket que não existem mais na pasta dist/
 
