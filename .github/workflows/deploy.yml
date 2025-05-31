@@ -1,6 +1,5 @@
 name: Deploy Website to S3
 
-# Dispara o workflow em pushes para a branch main
 on:
   push:
     branches:
@@ -8,53 +7,34 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest # Usa a última versão estável do Ubuntu como runner
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4 # Ação para baixar o código do repositório
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4 # Ação para configurar o ambiente Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: '18' # Especifique a versão do Node.js que seu projeto usa
-          cache: 'npm' # Habilita cache para dependências npm
+          node-version: '18'
+          cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci # Instala dependências usando package-lock.json para consistência
+        run: npm ci
+      
+      - name: Install Node Packages
+        run: npm install
 
       - name: Build project
-        run: npm run build # Executa o script de build (geralmente cria a pasta dist/)
+        run: npm run build
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4 # Ação para configurar credenciais AWS
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }} # Lê a chave do GitHub Secrets
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} # Lê a chave secreta do GitHub Secrets
-          aws-region: us-east-1 # Substitua pela região do seu bucket S3 e API Gateway
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1 
 
       - name: Deploy static site to S3 bucket
         run: |
-          aws s3 sync dist/ s3://frontend-ppedrord-prod --delete
-        # Substitua "ppedrord-frontend-site-data" pelo nome exato do seu bucket S3
-        # A flag --delete remove arquivos do bucket que não existem mais na pasta dist/
-
-      # --- Opcional: Invalidar Cache do CloudFront ---
-      # Descomente e ajuste se você estiver usando CloudFront na frente do API Gateway
-      # - name: Invalidate CloudFront Cache
-      #   run: |
-      #     aws cloudfront create-invalidation \
-      #       --distribution-id YOUR_CLOUDFRONT_DISTRIBUTION_ID \
-      #       --paths "/*"
-      #   # Substitua YOUR_CLOUDFRONT_DISTRIBUTION_ID pelo ID da sua distribuição CloudFront
-
-      # --- Opcional: Criar Novo Deployment no API Gateway ---
-      # Geralmente não é necessário para atualizações de conteúdo estático,
-      # mas pode ser útil se a estrutura da API mudar.
-      # - name: Create API Gateway Deployment
-      #   run: |
-      #     aws apigateway create-deployment \
-      #       --rest-api-id YOUR_API_GATEWAY_ID \
-      #       --stage-name prod
-      #   # Substitua YOUR_API_GATEWAY_ID pelo ID da sua API Gateway
-      #   # Substitua prod pelo nome do seu estágio de implantação
+          aws s3 sync dist/ s3://ppedrord-frontend-site-data --delete

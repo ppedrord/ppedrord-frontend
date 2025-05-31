@@ -11,7 +11,7 @@ function ContactSection({ id = 'contact' }) {
       className={`${sectionStyles.section} ${sectionStyles.alternateBg}`}
     >
       <div className={sectionStyles.container}>
-        <h2 className={sectionStyles.title}>Contato</h2>
+        <h2 className={sectionStyles.title}>Contact</h2>
 
         <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
           <div className={styles.formGroup}>

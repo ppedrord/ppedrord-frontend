@@ -41,5 +41,5 @@
   transform: translateY(-50%);
 }
 
-.controlsLeft  { left: 0.5rem; }
-.controlsRight { right: 0.5rem; }
+.controlsLeft  { left: 1.5rem; }
+.controlsRight { right: 1.5rem; }
