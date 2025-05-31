@@ -1,7 +1,6 @@
 import React from 'react';
 import Button from '../Button';
-import Moon from './icons/moon_stars.svg?react';
-import Sun from './icons/sun.svg?react';
+import { LuMoonStar as Moon} from "react-icons/lu";import { MdSunny as Sun} from "react-icons/md";
 import styles from './DarkModeToggle.module.css';
 import { useTheme } from '../../../contexts/ThemeContext';
 

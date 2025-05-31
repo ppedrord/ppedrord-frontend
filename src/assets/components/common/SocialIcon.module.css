@@ -1,0 +1,26 @@
+/* Ícone circular — herda cor do tema ------------------------------ */
+.social {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;                 /* 44 px → área mínima acessível */
+  height: 2.75rem;
+  border-radius: 50%;
+  background: var(--social-bg, rgba(0 0 0 / 0.05));
+  color: var(--social-fg, var(--text-color, #000));
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.2s ease;
+}
+
+.social:hover,
+.social:focus-visible {
+  background: var(--link-color, #007bff);
+  color: var(--on-link-color, #fff);
+  transform: translateY(-2px);
+}
+
+[data-theme='dark'] .social {
+  background: var(--social-bg-dark, rgba(255 255 255 / 0.08));
+}
