@@ -4,7 +4,7 @@ import sectionStyles from './ContentSection.module.css';
 import styles from './ContactSection.module.css';
 import Button from '../../../components/common/Button';
 
-function ContactSection({ id = 'contato' }) {
+function ContactSection({ id = 'contact' }) {
   return (
     <section
       id={id}
@@ -20,7 +20,7 @@ function ContactSection({ id = 'contato' }) {
               type="text"
               id="name"
               name="name"
-              placeholder="Seu nome"
+              placeholder="Your name"
               required
             />
           </div>
@@ -31,7 +31,7 @@ function ContactSection({ id = 'contato' }) {
               type="email"
               id="email"
               name="email"
-              placeholder="seu@email.com"
+              placeholder="your@email.com"
               required
             />
           </div>
@@ -42,7 +42,7 @@ function ContactSection({ id = 'contato' }) {
               id="message"
               name="message"
               rows="5"
-              placeholder="Digite sua mensagem..."
+              placeholder="Type a message..."
               required
             ></textarea>
           </div>

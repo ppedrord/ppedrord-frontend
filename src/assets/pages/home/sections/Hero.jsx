@@ -6,7 +6,7 @@ import heroImage from '../../../images/hero-image.png';
 
 function Hero() {
   return (
-    <section id="inicio" className={styles.hero}>
+    <section id="start" className={styles.hero}>
       <div className={styles.content}>
         <h1 className={styles.title}>Desenvolvimento e Liderança</h1>
         <p className={styles.subtitle}>

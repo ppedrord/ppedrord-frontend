@@ -14,10 +14,10 @@ function HomePage() {
       <Header />
 
       <main>
-        <Hero />
-        <AboutSection id="sobre" />
+        <Hero id="start"/>
+        <AboutSection id="about" />
         <PortfolioSection id="portfolio" />
-        <ContactSection id="contato" />
+        <ContactSection id="contact" />
       </main>
 
       <Footer />
