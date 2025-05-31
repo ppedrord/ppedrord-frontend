@@ -5,7 +5,7 @@ import { useTheme } from '../../contexts/ThemeContext';
 
 // Supondo que as logos estão na pasta public/
 const logoBlack = '/pb-logo-black.svg';
-const logoWhite = '/pb-logo-white.png';
+const logoWhite = '/pb-logo-white.svg';
 
 function Header() {
   const { theme } = useTheme();
