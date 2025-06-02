@@ -38,21 +38,26 @@ jobs:
         id: envmap
         run: |
           if [[ "${{ github.ref_name }}" == "main" ]]; then
-            echo "env=PROD" >> $GITHUB_OUTPUT
+            echo "env=prod" >> $GITHUB_OUTPUT
+            echo "env_upper=PROD" >> $GITHUB_OUTPUT
           elif [[ "${{ github.ref_name }}" == "hml" ]]; then
-            echo "env=HML" >> $GITHUB_OUTPUT
+            echo "env=hml" >> $GITHUB_OUTPUT
+            echo "env_upper=HML" >> $GITHUB_OUTPUT
           else
-            echo "env=DEV" >> $GITHUB_OUTPUT
+            echo "env=dev" >> $GITHUB_OUTPUT
+            echo "env_upper=DEV" >> $GITHUB_OUTPUT
           fi
+
 
       # Step 6: Configure AWS credentials based on the environment
       # These secrets must be defined in GitHub under each environment's secrets
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-access-key-id: ${{ secrets[format('AWS_ACCESS_KEY_ID_{0}', steps.envmap.outputs.env)] }}
-          aws-secret-access-key: ${{ secrets[format('AWS_SECRET_ACCESS_KEY_{0}', steps.envmap.outputs.env)] }}
+          aws-access-key-id: ${{ secrets[format('AWS_ACCESS_KEY_ID_{0}', steps.envmap.outputs.env_upper)] }}
+          aws-secret-access-key: ${{ secrets[format('AWS_SECRET_ACCESS_KEY_{0}', steps.envmap.outputs.env_upper)] }}
           aws-region: us-east-1
+
 
       # Step 7: Deploy built files to the appropriate S3 bucket
       # The variable 'bucket_name' must be defined in each environment's variables
