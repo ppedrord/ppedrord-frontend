@@ -1,74 +1,53 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './Header.module.css';
-
 import { useTheme } from '../../contexts/ThemeContext';
 import DarkModeToggle from '../common/DarkModeToggle/DarkModeToggle';
+import Button from '../common/Button';
+import { LuMenu } from 'react-icons/lu';
 
-import logoBlack from './icons/pb-logo-black.svg';
-import logoWhite from './icons/pb-logo-white.png';
 
-function Header() {
+function Header({ onToggleSidebar, showBurger = true }) {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
-  const [mobileOpen, setMobileOpen] = useState(false);
 
-  const currentLogo = isDark ? logoWhite : logoBlack;
+
+  const logoBlackPath = '/pb-logo-black.svg'; 
+  const logoWhitePath = '/pb-logo-white.png'; 
+
+  const currentLogo = isDark ? logoWhitePath : logoBlackPath;
 
   return (
-    <header className={styles.header} data-dark={isDark}>
+    <header className={styles.header} data-dark={isDark ? 'true' : 'false'}>
       <div className={styles.container}>
-        {/* ---------- Logo ---------- */}
-        <a href="#home" className={styles.logoLink}>
+        <a href="/" className={styles.logoLink} aria-label="Página Inicial">
           <img src={currentLogo} alt="PB logo" className={styles.logo} />
         </a>
 
-        {/* ---------- Navegação desktop ---------- */}
         <nav className={styles.navDesktop}>
-          <a href="#about">About&nbsp;me</a>
-          {/* <a href="#skills">Skills</a> */}
-          <a href="#portfolio">Portfolio</a>
-          {/* <a href="#contact" className={styles.contactBtn}>
-            Contact&nbsp;me
-          </a> */}
-          <a href="#contact">
-            Contact&nbsp;me
+          <a href="/">Home</a>
+          <a href="/articles">Artigos</a> 
+          <a href="/#contact" className={styles.contactBtn}>
+            {' '}
+            {/* Exemplo: link para seção Contato na Home */}
+            Contato
           </a>
         </nav>
 
-        {/* ---------- Tema & menu mobile ---------- */}
         <div className={styles.actions}>
           <DarkModeToggle />
-          <button
-            aria-label="Open menu"
-            className={styles.burger}
-            onClick={() => setMobileOpen((v) => !v)}
-          >
-            <span />
-          </button>
+          {showBurger && (
+            <Button
+              onClick={onToggleSidebar}
+              variant="secondary"
+              iconOnly
+              aria-label="Abrir menu lateral"
+              className={styles.burger} 
+            >
+              <span ><LuMenu size={24} /></span>{' '}
+            </Button>
+          )}
         </div>
       </div>
-
-      {/* ---------- Navegação mobile ---------- */}
-      {mobileOpen && (
-        <nav className={styles.navMobile}>
-          <a onClick={() => setMobileOpen(false)} href="#about">
-            About me
-          </a>
-          {/* <a onClick={() => setMobileOpen(false)} href="#skills">
-            Skills
-          </a> */}
-          <a onClick={() => setMobileOpen(false)} href="#portfolio">
-            Portfolio
-          </a>
-          <a
-            onClick={() => setMobileOpen(false)}
-            href="#contact"
-            className={styles.contactBtn}
-          >
-            Contact me
-          </a>
-        </nav>
-      )}
     </header>
   );
 }

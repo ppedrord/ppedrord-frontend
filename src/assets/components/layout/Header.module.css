@@ -1,14 +1,14 @@
 /************** TOKENS ESPECÍFICOS DO HEADER ******************************/
 :root {
-  --header-h: 4rem;
+  --header-h: 4rem; /* Altura do header */
 
   /* Light */
   --header-bg-light: rgba(255 255 255 / 0.92);
-  --header-fg-light: #000;
+  --header-fg-light: var(--text-color, #000); /* Usar variável global de texto */
 
   /* Dark  */
-  --header-bg-dark: rgba(0 0 0 / 0.88);
-  --header-fg-dark: #fff;
+  --header-bg-dark: rgba(20 20 20 / 0.88); /* Ligeiramente mais claro que preto puro */
+  --header-fg-dark: var(--text-color, #fff); /* Usar variável global de texto */
 }
 
 /**************************************************************************/
@@ -19,21 +19,25 @@
   height: var(--header-h);
   display: flex;
   align-items: center;
-  z-index: 1000;
+  z-index: 1000; /* Garante que o header fique acima da maioria dos elementos */
 
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); /* Para Safari */
   transition:
     background-color 0.35s ease,
     color 0.35s ease;
+  border-bottom: 1px solid var(--separator, rgba(0,0,0,0.08));
 }
 
 .header[data-dark='false'] {
   background: var(--header-bg-light);
   color: var(--header-fg-light);
+  border-bottom-color: var(--separator, rgba(0,0,0,0.08));
 }
 .header[data-dark='true'] {
   background: var(--header-bg-dark);
   color: var(--header-fg-dark);
+  border-bottom-color: var(--separator, rgba(255,255,255,0.08));
 }
 
 /* --------- conteúdo interno --------- */
@@ -49,31 +53,40 @@
 
 .logoLink {
   display: inline-flex;
+  padding: 0.5rem 0; /* Espaço para clique */
 }
 .logo {
-  width: 2.75rem;
-  height: auto;
+  width: auto; /* Para manter a proporção */
+  height: calc(var(--header-h) * 0.6); /* Logo proporcional à altura do header */
+  max-height: 35px; /* Limite máximo */
   user-select: none;
+  object-fit: contain;
 }
 
 .navDesktop {
-  display: flex;
-  gap: 2rem;
-  font-weight: 600;
+  display: none; /* Escondido por padrão, aparece em telas maiores */
+  gap: 1.8rem; /* Espaçamento entre links */
+  font-weight: 500; /* Peso da fonte */
 }
 .navDesktop a {
   position: relative;
   color: inherit;
   text-decoration: none;
+  padding: 0.25rem 0;
+  transition: color 0.2s ease;
 }
+.navDesktop a:hover {
+  color: var(--link-color); /* Cor de hover da variável global */
+}
+
 .navDesktop a::after {
   content: '';
   position: absolute;
   left: 0;
-  bottom: -4px;
+  bottom: -2px; /* Posição da linha de sublinhado */
   width: 0;
   height: 2px;
-  background: currentColor;
+  background: var(--link-color); /* Cor da linha de hover */
   transition: width 0.25s;
 }
 .navDesktop a:hover::after {
@@ -81,123 +94,89 @@
 }
 
 .contactBtn {
-  padding: 0.55rem 1.6rem;
-  border: 2px solid currentColor;
-  border-radius: 2rem;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
+  padding: 0.45rem 1.2rem; /* Padding do botão de contato */
+  border: 1px solid var(--link-color);
+  color: var(--link-color);
+  border-radius: 6px; /* Raio da borda */
+  text-transform: none; /* Sem uppercase */
+  letter-spacing: normal;
+  font-weight: 500;
   transition:
     background-color 0.25s,
     color 0.25s;
 }
 .contactBtn:hover {
-  background: currentColor;
-  color: var(--header-bg-light);
+  background: var(--link-color);
+  color: var(--background-color); /* Cor do texto no hover (contraste) */
+  text-decoration: none; /* Remove sublinhado do link no hover do botão */
 }
+.navDesktop .contactBtn::after {
+    display: none; /* Remove a linha de sublinhado do botão de contato */
+}
+
 
 .actions {
   display: flex;
-  gap: 1.2rem;
+  gap: 0.8rem; /* Espaçamento entre toggle e burger */
   align-items: center;
 }
 
-/* burger */
-.burger{
-  --s: 1.35rem;
-  display:none;
-  background:none;
-  border:0;
-  width:var(--s);
-  height:var(--s);
-  position:relative;
-  cursor:pointer;
-  color:inherit;
+/* burger - agora controla o sidebar da página */
+.burger {
+  /* Estilos do seu componente Button serão aplicados. */
+  /* Se precisar de ajustes específicos para o ícone de hambúrguer: */
+  padding: 0.5rem !important; /* Exemplo de override */
+  width: calc(var(--header-h) * 0.6);
+  height: calc(var(--header-h) * 0.6);
+  max-width: 38px;
+  max-height: 38px;
+  display: flex; /* Para centralizar o ícone span */
+  align-items: center;
+  justify-content: center;
+  /* Outros estilos do seu Button.module.css para variant="secondary" iconOnly */
 }
 
-.burger span,
-.burger span::before,
-.burger span::after {
+.burgerIcon,
+.burgerIcon::before,
+.burgerIcon::after {
   content: '';
   position: absolute;
-  width: 100%;
+  width: 1.25rem; /* Largura das linhas do hambúrguer */
   height: 2px;
-  background: currentColor;
-  left: 0;
-  transition: transform 0.3s ease;
+  background: currentColor; /* Cor do texto atual (herdada do header) */
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  border-radius: 1px;
 }
 
-.burger span {
-  top: 50%;
-  translate: 0 -50%;
+/* .burgerIcon {  A própria linha do meio }  -- removed empty ruleset */
+.burgerIcon::before {
+  transform: translateY(-6px); /* Linha de cima */
 }
-.burger span::before {
-  top: -6px;
-}
-.burger span::after {
-  top: 6px;
+.burgerIcon::after {
+  transform: translateY(6px); /* Linha de baixo */
 }
 
-/* ---------- MOBILE NAV (novo estilo) ----------------- */
-@keyframes slideIn {
-  from { opacity:0; transform:translateY(-0.5rem); }
-  to   { opacity:1; transform:translateY(0); }
+/* Estilos para quando o menu lateral estiver aberto (opcional, se quiser animar o burger) */
+/* Se o estado de abertura do sidebar for passado para o Header, você pode usar: */
+.header[data-sidebar-open='true'] .burgerIcon {
+  background: transparent; 
+}
+.header[data-sidebar-open='true'] .burgerIcon::before {
+  transform: translateY(0) rotate(45deg);
+}
+.header[data-sidebar-open='true'] .burgerIcon::after {
+  transform: translateY(0) rotate(-45deg);
 }
 
-.navMobile{
-  position:absolute;
-  top:var(--header-h);
-  right:0;
-  width:min(80vw, 280px);
-  padding:2rem 2.25rem 2.25rem;
-  display:flex;
-  flex-direction:column;
-  gap:1.4rem;
 
-  /* glass effect para ambos temas */
-  background:rgba(0 0 0 / 0.8);
-  backdrop-filter:blur(16px) saturate(140%);
-  border:1px solid rgba(255 255 255 / .15);
-  border-top:none;
-  color:#fff;
 
-  animation:slideIn .35s ease forwards;
-  transform-origin:top right;
-}
+/* Mobile Nav removido daqui, pois será um Sidebar na página */
 
-[data-dark='false'] .navMobile{
-  background:rgba(255 255 255 / .85);
-  color:#000;
-  border-color:rgba(0 0 0 / .12);
-}
-
-.navMobile a{
-  font-weight:600;
-  text-decoration:none;
-  color:inherit;
-  position:relative;
-}
-
-.navMobile a::after{
-  content:'';
-  position:absolute;
-  bottom:-4px; left:0;
-  width:0; height:2px;
-  background:currentColor;
-  transition:width .2s;
-}
-.navMobile a:hover::after{ width:100%; }
-
-.navMobile .contactBtn{
-  margin-top:.5rem;
-  align-self:flex-start;
-  border-color:currentColor;
-}
-
-@media (max-width: 900px) {
+@media (min-width: 900px) { /* Breakpoint para mostrar navDesktop */
   .navDesktop {
-    display: none;
+    display: flex;
   }
-  .burger {
-    display: block;
+  .burger { /* Esconde o burger em telas maiores se o navDesktop estiver visível */
+    display: none; 
   }
 }
