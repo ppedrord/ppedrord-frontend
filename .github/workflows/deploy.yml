@@ -2,14 +2,14 @@ name: Deploy Website to S3
 
 on:
   push:
-    branches:
-      - main
-      - hml
-      - dev
+    branches: [main, hml, dev]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
+    # Usa o ambiente GitHub correto para habilitar aprovações/segredos
+    environment: ${{ github.ref_name == 'main' && 'prod' || github.ref_name }}
 
     steps:
       - name: Checkout repository
@@ -23,41 +23,29 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+        shell: bash
 
       - name: Build project
         run: npm run build
+        shell: bash
 
-      - name: Set environment context based on branch
-        id: envmap
+      # Derive env tag (prod | hml | dev) para uso posterior
+      - name: Set env tag
+        id: envtag
         run: |
           if [[ "${{ github.ref_name }}" == "main" ]]; then
-            echo "env=prod" >> $GITHUB_OUTPUT
-            echo "env_upper=PROD" >> $GITHUB_OUTPUT
-          elif [[ "${{ github.ref_name }}" == "hml" ]]; then
-            echo "env=hml" >> $GITHUB_OUTPUT
-            echo "env_upper=HML" >> $GITHUB_OUTPUT
+            echo "TAG=prod" >> "$GITHUB_ENV"
           else
-            echo "env=dev" >> $GITHUB_OUTPUT
-            echo "env_upper=DEV" >> $GITHUB_OUTPUT
+            echo "TAG=${{ github.ref_name }}" >> "$GITHUB_ENV"
           fi
+        shell: bash
 
-      - name: Set AWS credentials as env vars (prod)
-        if: steps.envmap.outputs.env == 'prod'
+      # Exporta credenciais específicas do ambiente (vêm de environment secrets)
+      - name: Export AWS credentials
         run: |
-          echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID_PROD }}" >> $GITHUB_ENV
-          echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY_PROD }}" >> $GITHUB_ENV
-
-      - name: Set AWS credentials as env vars (hml)
-        if: steps.envmap.outputs.env == 'hml'
-        run: |
-          echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID_HML }}" >> $GITHUB_ENV
-          echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY_HML }}" >> $GITHUB_ENV
-
-      - name: Set AWS credentials as env vars (dev)
-        if: steps.envmap.outputs.env == 'dev'
-        run: |
-          echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID_DEV }}" >> $GITHUB_ENV
-          echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }}" >> $GITHUB_ENV
+          echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> "$GITHUB_ENV"
+          echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> "$GITHUB_ENV"
+        shell: bash
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -67,7 +55,5 @@ jobs:
           aws-region: us-east-1
 
       - name: Deploy static site to S3
-        env:
-          BUCKET_NAME: ${{ vars.bucket_name }}
-        run: |
-          aws s3 sync dist/ s3://$BUCKET_NAME --delete
+        run: aws s3 sync dist/ "s3://${{ vars.BUCKET_NAME }}" --delete
+        shell: bash
