@@ -2,7 +2,7 @@
   background-color: var(--footer-bg, #e9ecef);
   color: var(--text-color);
   padding: 2rem 0;
-  margin-top: 4rem; /* Espaço acima do rodapé */
+  margin-top: 4rem;
   transition: background-color 0.3s ease;
 }
 
@@ -13,7 +13,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap; /* Permite quebrar linha em telas menores */
+  flex-wrap: wrap;
   gap: 1rem;
 }
 
@@ -22,20 +22,9 @@
   font-size: 0.9rem;
 }
 
-.socialLinks {
+.social {
   display: flex;
-  gap: 1rem;
-}
-
-.socialLinks a {
-  color: var(--text-color);
-  opacity: 0.8;
-  transition: opacity 0.2s ease;
-}
-
-.socialLinks a:hover {
-  opacity: 1;
-  text-decoration: none;
+  gap: 1.25rem;
 }
 
 @media (max-width: 768px) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Hero.module.css';
 
-import SocialIcon from '../../../components/common/SocialIcon'; // ícone reutilizável
+import SocialIcon from '../../../components/common/SocialIcon';
 import heroPhoto from '../../../images/hero-image.png';
 
 function Hero() {

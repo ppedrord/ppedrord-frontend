@@ -1,21 +1,35 @@
 import React from 'react';
 import styles from './Footer.module.css';
 
+import SocialIcon from '../common/SocialIcon';
+
 function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>
-        <p>&copy; {currentYear} Quantum Innovations LTDA. All rights reserved.</p>
+        <p>
+          &copy; {currentYear} Quantum Innovations LTDA. All rights reserved.
+        </p>
         <div className={styles.socialLinks}>
-          {/* Adicione links/ícones para redes sociais aqui */}
-          <a href="https://github.com/ppedrord" target="_blank" rel="noopener noreferrer">
-            GitHub
-          </a>
-          <a href="https://www.linkedin.com/in/ppedrord" target="_blank" rel="noopener noreferrer">
-            LinkedIn
-          </a>
+          <div className={styles.social}>
+            <SocialIcon
+              icon="instagram"
+              href="https://instagram.com/ppedrord"
+              label="Instagram"
+            />
+            <SocialIcon
+              icon="github"
+              href="https://github.com/ppedrord"
+              label="GitHub"
+            />
+            <SocialIcon
+              icon="linkedin"
+              href="https://linkedin.com/in/ppedrord"
+              label="LinkedIn"
+            />
+          </div>
         </div>
       </div>
     </footer>

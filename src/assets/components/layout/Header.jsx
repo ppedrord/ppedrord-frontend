@@ -25,7 +25,7 @@ function Header() {
         {/* ---------- Navegação desktop ---------- */}
         <nav className={styles.navDesktop}>
           <a href="#about">About&nbsp;me</a>
-          <a href="#skills">Skills</a>
+          {/* <a href="#skills">Skills</a> */}
           <a href="#portfolio">Portfolio</a>
           {/* <a href="#contact" className={styles.contactBtn}>
             Contact&nbsp;me
@@ -54,9 +54,9 @@ function Header() {
           <a onClick={() => setMobileOpen(false)} href="#about">
             About me
           </a>
-          <a onClick={() => setMobileOpen(false)} href="#skills">
+          {/* <a onClick={() => setMobileOpen(false)} href="#skills">
             Skills
-          </a>
+          </a> */}
           <a onClick={() => setMobileOpen(false)} href="#portfolio">
             Portfolio
           </a>

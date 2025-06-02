@@ -15,7 +15,7 @@ function ContactSection({ id = 'contact' }) {
 
         <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
           <div className={styles.formGroup}>
-            <label htmlFor="name">Nome</label>
+            <label htmlFor="name">Name</label>
             <input
               type="text"
               id="name"
@@ -37,7 +37,7 @@ function ContactSection({ id = 'contact' }) {
           </div>
 
           <div className={styles.formGroup}>
-            <label htmlFor="message">Mensagem</label>
+            <label htmlFor="message">Message</label>
             <textarea
               id="message"
               name="message"
