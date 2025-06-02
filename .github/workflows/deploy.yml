@@ -1,0 +1,73 @@
+name: Deploy Website to S3
+
+on:
+  push:
+    branches:
+      - main
+      - hml
+      - dev
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build project
+        run: npm run build
+
+      - name: Set environment context based on branch
+        id: envmap
+        run: |
+          if [[ "${{ github.ref_name }}" == "main" ]]; then
+            echo "env=prod" >> $GITHUB_OUTPUT
+            echo "env_upper=PROD" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.ref_name }}" == "hml" ]]; then
+            echo "env=hml" >> $GITHUB_OUTPUT
+            echo "env_upper=HML" >> $GITHUB_OUTPUT
+          else
+            echo "env=dev" >> $GITHUB_OUTPUT
+            echo "env_upper=DEV" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Set AWS credentials as env vars (prod)
+        if: steps.envmap.outputs.env == 'prod'
+        run: |
+          echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID_PROD }}" >> $GITHUB_ENV
+          echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY_PROD }}" >> $GITHUB_ENV
+
+      - name: Set AWS credentials as env vars (hml)
+        if: steps.envmap.outputs.env == 'hml'
+        run: |
+          echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID_HML }}" >> $GITHUB_ENV
+          echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY_HML }}" >> $GITHUB_ENV
+
+      - name: Set AWS credentials as env vars (dev)
+        if: steps.envmap.outputs.env == 'dev'
+        run: |
+          echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID_DEV }}" >> $GITHUB_ENV
+          echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }}" >> $GITHUB_ENV
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ env.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ env.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Deploy static site to S3
+        env:
+          BUCKET_NAME: ${{ vars.bucket_name }}
+        run: |
+          aws s3 sync dist/ s3://$BUCKET_NAME --delete
