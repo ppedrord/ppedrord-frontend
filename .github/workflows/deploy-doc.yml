@@ -48,7 +48,15 @@ jobs:
             echo "env_upper=DEV" >> $GITHUB_OUTPUT
           fi
 
-
+      # Step 5.1: Echo environment variables based on the branch
+      - name: Echo environment variables
+        run: |
+          echo "Environment: ${{ steps.envmap.outputs.env }}"
+          echo "Environment Upper: ${{ steps.envmap.outputs.env_upper }}"
+          echo "Access Key ID: ${{ secrets[format('AWS_ACCESS_KEY_ID_{0}', steps.envmap.outputs.env_upper)] }}"
+          echo "Secret Access Key: ${{ secrets[format('AWS_SECRET_ACCESS_KEY_{0}', steps.envmap.outputs.env_upper)] }}"
+          echo "Bucket Name: ${{ vars.bucket_name }}"
+      
       # Step 6: Configure AWS credentials based on the environment
       # These secrets must be defined in GitHub under each environment's secrets
       - name: Configure AWS credentials
