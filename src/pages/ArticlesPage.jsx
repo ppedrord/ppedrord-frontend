@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../../components/layout/Header';
-import Footer from '../../components/layout/Footer'; 
-import Sidebar from '../../components/layout/Sidebar'; 
 import styles from './ArticlesPage.module.css';
 
 const articles = [
@@ -34,17 +31,6 @@ function ArticlesPage() {
 
   return (
     <>
-      <Header onToggleSidebar={toggleSidebar} showBurger={articlesNavItems.length > 0} /> 
-      
-      {articlesNavItems.length > 0 && ( // Só mostra o sidebar se houver itens
-        <Sidebar 
-            isOpen={isSidebarOpen} 
-            toggleSidebar={toggleSidebar}
-            navItems={articlesNavItems}
-            currentPagePath={currentPath}
-        />
-      )}
-
       <main className={styles.mainContent}>
         <div className={styles.container}>
           <h1 className={styles.pageTitle}>Artigos</h1>
@@ -69,7 +55,6 @@ function ArticlesPage() {
         </div>
       </main>
 
-      <Footer />
     </>
   );
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Footer.module.css';
 
-import SocialIcon from '../common/SocialIcon';
+import SocialIcon from '../../common/SocialIcon/SocialIcon';
 
 function Footer() {
   const currentYear = new Date().getFullYear();

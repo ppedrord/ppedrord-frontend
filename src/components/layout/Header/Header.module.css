@@ -1,0 +1,150 @@
+:root {
+  --header-h: 4rem;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  z-index: 1000;
+
+  background-color: var(--header-bg);
+  color: var(--text-color);
+  border-bottom: 1px solid var(--separator);
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+/* O data-dark é gerenciado pelo ThemeContext e aplicado no body ou html,
+   então o header herdará as variáveis CSS corretas.
+   Se você aplicar data-dark diretamente no header, as regras abaixo são úteis.
+   Caso contrário, elas podem ser removidas se as variáveis globais forem suficientes.
+*/
+/* Removidos os rulesets vazios de .header[data-dark='false'] e .header[data-dark='true'] */
+
+.container {
+  width: 100%;
+  max-width: 1200px; /* Ou seu container max-width preferido */
+  margin: 0 auto;
+  padding: 0 1.5rem; /* Espaçamento lateral */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logoLink {
+  display: inline-flex; /* Para melhor alinhamento e área de clique */
+  align-items: center;
+  height: 100%; /* Para ocupar a altura do header e centralizar a logo */
+}
+
+.logo {
+  height: calc(
+    var(--header-h) * 0.55
+  ); /* Logo proporcional à altura do header */
+  max-height: 32px; /* Limite máximo para não ficar muito grande */
+  width: auto; /* Para manter a proporção */
+  object-fit: contain;
+  /* A cor/filtro da logo é tratada pela troca de src no JS */
+}
+
+.navDesktop {
+  display: none; /* Escondido em mobile */
+  align-items: center;
+  gap: 1.5rem; /* Espaçamento entre links */
+}
+
+.navItem {
+  font-size: 0.95rem; /* Tamanho da fonte dos links */
+  font-weight: 500;
+  color: var(--text-color); /* Cor do texto herdada ou específica */
+  text-decoration: none;
+  padding: 0.25rem 0.1rem; /* Pequeno padding para área de clique e sublinhado */
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+.navItem:hover {
+  color: var(--link-color); /* Cor de hover do seu tema */
+}
+
+/* Estilo para o link ativo usando a classe padrão 'active' do NavLink */
+.navItem.active {
+  color: var(--link-color);
+  font-weight: 600; /* Ou 700 para mais destaque */
+}
+
+/* Efeito de sublinhado no hover e para o link ativo */
+.navItem::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -3px; /* Posição da linha abaixo do texto */
+  width: 0;
+  height: 2px;
+  background-color: var(--link-color);
+  transition: width 0.25s ease-out;
+}
+
+.navItem:hover::after,
+.navItem.active::after {
+  width: 100%;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem; /* Espaçamento entre DarkModeToggle e o botão Burger */
+}
+
+.burger {
+  /* Seu componente Button já tem estilos. Esta classe é para overrides ou posicionamento. */
+  /* Assegure que a variante "secondary" e iconOnly do seu Button.jsx fiquem bem aqui. */
+  display: flex; /* Visível por padrão, escondido em telas maiores */
+  align-items: center;
+  justify-content: center;
+  color: var(--text-color); /* Cor do ícone LuMenu */
+  /* Ajuste o padding se o Button.jsx não der o resultado visual desejado */
+  padding: 0.4rem !important; /* Exemplo de override, ajuste conforme necessário */
+  width: 38px; /* Tamanho fixo para o botão burger */
+  height: 38px; /* Tamanho fixo para o botão burger */
+}
+
+.burger:hover {
+  color: var(--link-color); /* Cor do ícone no hover */
+  /* O Button.jsx já deve ter um background-color no hover para a variante secondary */
+}
+
+/* Animação do ícone LuMenu para 'X' (opcional, requer mais CSS ou troca de ícone no JS) */
+/* Se você quiser animar o LuMenu para um 'X': */
+.header[data-sidebar-open='true'] .burger svg {
+  transform: rotate(90deg);
+  /* Uma animação mais complexa para transformar LuMenu em X é mais difícil só com CSS. */
+  /* Seria mais fácil trocar o ícone LuMenu por um ícone de 'X' no JSX baseado no estado isSidebarOpen. */
+}
+
+/* Media Query para responsividade */
+@media (min-width: 900px) {
+  /* Ponto de quebra para mostrar navDesktop e esconder burger */
+  .navDesktop {
+    display: flex;
+  }
+  .burger {
+    display: none; /* Esconde o botão burger em telas maiores */
+  }
+}
+
+/* Se o seu DarkModeToggle precisar de ajustes específicos dentro do header */
+/* .actions > :global(div[class*="DarkModeToggle_toggle__"]) { */
+/* Exemplo de como atingir uma classe de um módulo CSS filho */
+/* margin-right: 0.5rem; */
+/* } */

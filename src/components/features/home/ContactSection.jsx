@@ -2,7 +2,7 @@
 import React from 'react';
 import sectionStyles from './ContentSection.module.css';
 import styles from './ContactSection.module.css';
-import Button from '../../../components/common/Button';
+import Button from '../../common/Button/Button';
 
 function ContactSection({ id = 'contact' }) {
   return (

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import sectionStyles from './ContentSection.module.css';
 import styles from './PortfolioSection.module.css';
-import Button from '../../../components/common/Button';
+import Button from '../../common/Button/Button';
 
-import programmingChallengesImg from '../../../images/programming-challenges.png';
-import pytestFixturesImg from '../../../images/pytest-fixtures.png';
-import mongoDbLogoImg from '../../../images/mongoDB-logo.png';
+import programmingChallengesImg from '../../../assets/images/programming-challenges.png';
+import pytestFixturesImg from '../../../assets/images/pytest-fixtures.png';
+import mongoDbLogoImg from '../../../assets/images/mongoDB-logo.png';
 
 // imagens devem estar em public/images ou altere o caminho conforme seu build
 const items = [

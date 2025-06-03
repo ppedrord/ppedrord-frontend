@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../../components/layout/Header'; // Ajuste o caminho
-import Footer from '../../components/layout/Footer'; // Ajuste o caminho
-import Sidebar from '../../components/layout/Sidebar'; // Nosso novo Sidebar
 
-import Hero from './sections/Hero';
-import AboutSection from './sections/AboutSection';
-import PortfolioSection from './sections/PortfolioSection';
-import ContactSection from './sections/ContactSection';
+import Hero from '../components/features/home/Hero';
+import AboutSection from '../components/features/home/AboutSection';
+import PortfolioSection from '../components/features/home/PortfolioSection';
+import ContactSection from '../components/features/home/ContactSection';
 
 // Defina os itens de navegação para o Sidebar da HomePage
 const homePageNavItems = [
@@ -74,16 +71,6 @@ function HomePage() {
 
   return (
     <>
-      {/* Passa a função de toggle para o Header */}
-      <Header onToggleSidebar={toggleSidebar} showBurger={true} />
-
-      <Sidebar
-        isOpen={isSidebarOpen}
-        toggleSidebar={toggleSidebar}
-        navItems={homePageNavItems}
-        currentPagePath={currentPath}
-      />
-
       <main>
         {' '}
         {/* O padding-top para compensar o Header fixo deve estar no CSS global ou do mainContent da página */}
@@ -93,7 +80,6 @@ function HomePage() {
         <PortfolioSection id="portfolio" />
         <ContactSection id="contact" />
       </main>
-      <Footer></Footer>
     </>
   );
 }

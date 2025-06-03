@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Chart from 'chart.js/auto';
 import styles from './DeployGuidePage.module.css';
-import Button from '../../../components/common/Button';
+import Button from '../components/common/Button/Button';
 
 import { LuMenu } from 'react-icons/lu';
 
