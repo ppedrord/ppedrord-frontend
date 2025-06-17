@@ -1,23 +1,61 @@
+// .eslintrc.cjs
+
 module.exports = {
-  root: true,
-  env: { browser: true, es2020: true },
+  env: {
+    browser: true, // Variáveis globais do navegador (ex: window, document)
+    es2021: true, // Suporte para features do ECMAScript 2021
+    node: true, // Variáveis globais do Node.js (ex: module, require) - útil para este arquivo de config
+  },
   extends: [
-    'eslint:recommended',
-    'plugin:react/recommended',
-    'plugin:react/jsx-runtime', // Necessário para React 17+ sem importar React
-    'plugin:react-hooks/recommended',
-    'prettier', // Adiciona configuração do Prettier
+    'eslint:recommended', // Regras recomendadas pelo ESLint
+    'plugin:react/recommended', // Regras recomendadas para React
+    'plugin:react-hooks/recommended', // Regras recomendadas para React Hooks
+    'plugin:jsx-a11y/recommended', // Regras recomendadas para acessibilidade JSX
+    'plugin:prettier/recommended', // Integração com Prettier para formatação de código
   ],
-  ignorePatterns: ['dist', '.eslintrc.cjs'],
-  parserOptions: { ecmaVersion: 'latest', sourceType: 'module' },
-  settings: { react: { version: '18.2' } }, // Especifique a versão do React
-  plugins: ['react-refresh', 'prettier'], // Adiciona plugin do Prettier
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true, // Habilita o parsing de JSX
+    },
+    ecmaVersion: 'latest', // Permite o uso das features mais recentes do ECMAScript
+    sourceType: 'module', // Permite o uso de imports ES6
+  },
+  plugins: ['react', 'react-hooks', 'jsx-a11y'],
   rules: {
-    'react-refresh/only-export-components': [
+    // Regras Gerais do ESLint
+    'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }], // Avisa sobre variáveis não usadas, ignorando argumentos que começam com _
+    'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off', // Desabilita console.log em desenvolvimento, avisa em produção
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off', // Desabilita debugger em desenvolvimento, avisa em produção
+
+    // Regras do React
+    'react/prop-types': 'off', // Desabilitar se não for usar PropTypes (comum em JS puro ou se for adicionar TypeScript depois)
+    'react/react-in-jsx-scope': 'off', // Não é mais necessário com o novo JSX transform do React 17+
+    'react/jsx-uses-react': 'off', // Similar ao acima
+
+    // Regras do React Hooks
+    'react-hooks/rules-of-hooks': 'error', // Garante que as regras dos Hooks sejam seguidas
+    'react-hooks/exhaustive-deps': 'warn', // Avisa sobre dependências ausentes em Hooks como useEffect
+
+    // Regras do Prettier
+    'prettier/prettier': 'error', // Garante que o código siga as regras do Prettier
+
+    // Regras de Acessibilidade (jsx-a11y) - ajuste conforme necessário
+    // Exemplo: permitir links sem href válido se forem usados com React Router
+    'jsx-a11y/anchor-is-valid': [
       'warn',
-      { allowConstantExport: true },
+      {
+        components: ['Link'], // Se você usar <Link> do react-router-dom
+        specialLink: ['to'],
+        aspects: ['noHref', 'invalidHref', 'preferButton'],
+      },
     ],
-    'prettier/prettier': 'warn', // Mostra erros do Prettier como warnings no ESLint
-    'react/prop-types': 'off', // Desativa a validação de prop-types se não for usar
+    // Adicione ou ajuste outras regras conforme a necessidade do projeto
+    // Ex: 'indent': ['error', 2], // Força indentação de 2 espaços (Prettier cuidará disso)
+    // 'quotes': ['error', 'single'], // Força aspas simples (Prettier cuidará disso)
+  },
+  settings: {
+    react: {
+      version: 'detect', // Detecta automaticamente a versão do React instalada
+    },
   },
 };

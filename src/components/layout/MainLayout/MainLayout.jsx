@@ -1,52 +1,66 @@
+
+// src/components/layout/MainLayout/MainLayout.jsx
 import React from 'react';
-import Header from '../Header/Header'; // Ajuste o caminho se necessário
-import Footer from '../Footer/Footer'; // Ajuste o caminho se necessário
-import Sidebar from '../Sidebar/Sidebar'; // Ajuste o caminho se necessário
-// import styles from './MainLayout.module.css'; // Crie este se precisar de estilos específicos
+import PropTypes from 'prop-types';
+
+// Importando o Header e Footer
+import Header from '@/components/layout/Header';
+import Footer from '@/components/layout/Footer';
+
+// Importando os componentes necessários do MUI
+import { styled } from '@mui/material/styles';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
 
 /**
- * Componente MainLayout
- * Envolve as páginas com Header, Footer e um Sidebar condicional.
- * @param {object} props
- * @param {React.ReactNode} props.children - O conteúdo da página a ser renderizado.
- * @param {Array|null} [props.sidebarNavItems=null] - Itens de navegação para o Sidebar.
- * @param {string} props.pageId - Um ID para o elemento <main>, útil para targeting ou testes.
+ * @typedef {Object} MainLayoutProps
+ * @property {React.ReactNode} children - O conteúdo da página a ser renderizado dentro do layout.
  */
-function MainLayout({ children, sidebarNavItems, pageId }) {
-  const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
+/**
+ * Componente MainLayout.
+ * Serve como o layout principal para a maioria das páginas da aplicação,
+ * incluindo Header, Footer e a área de conteúdo principal.
+ *
+ * @param {MainLayoutProps} props - As props do componente.
+ * @returns {JSX.Element} O componente MainLayout.
+ */
+const SiteContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  minHeight: '100vh', // Garante que o layout ocupe pelo menos toda a altura da viewport
+  backgroundColor: theme.palette.background.default, // Cor de fundo base do tema
+}));
 
-  // Determina se o botão burger deve ser mostrado (se houver itens no sidebar e eles não forem um array vazio)
-  const showBurgerForPage = Array.isArray(sidebarNavItems) && sidebarNavItems.length > 0;
+const ContentContainer = styled(Container)(({ theme }) => ({ // Usando Container do MUI para o conteúdo principal
+  flexGrow: 1, // Faz com que o conteúdo principal ocupe o espaço vertical disponível
+  paddingTop: theme.spacing(3), // Espaçamento no topo do conteúdo
+  paddingBottom: theme.spacing(3), // Espaçamento na base do conteúdo
+  [theme.breakpoints.up('sm')]: { // Em telas sm e maiores
+    paddingTop: theme.spacing(4),
+    paddingBottom: theme.spacing(4),
+  },
+}));
 
+const MainLayout = ({ children }) => {
   return (
-    <div className="app-wrapper"> {/* Pode usar styles.appWrapper se criar o .module.css */}
-      <Header
-        onToggleSidebar={toggleSidebar}
-        isSidebarOpen={isSidebarOpen}
-        showBurger={showBurgerForPage}
-      />
-      {showBurgerForPage && ( // Renderiza o Sidebar apenas se houver itens e o burger for mostrado
-        <Sidebar
-          isOpen={isSidebarOpen}
-          toggleSidebar={toggleSidebar}
-          navItems={sidebarNavItems}
-          // currentPagePath é melhor gerenciado pelo Sidebar usando useLocation
-        />
-      )}
-      <main 
-        id={pageId || 'main-content'} 
-        style={{ paddingTop: 'var(--header-h, 4rem)' }} // Padding para compensar o header fixo
-        // className={styles.mainContainer} // Exemplo se usar MainLayout.module.css
-      >
+    <SiteContainer>
+      <Header /> {/* Header definido acima */}
+      <ContentContainer component="main" maxWidth="lg"> {/* maxWidth="lg" é um bom padrão */}
         {children}
-      </main>
-      <Footer />
-    </div>
+      </ContentContainer>
+      <Footer /> {/* Footer definido acima */}
+    </SiteContainer>
   );
-}
+};
 
-export default MainLayout;
+MainLayout.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
+export default MainLayout; // Exporta MainLayout como default para este "arquivo" combinado
