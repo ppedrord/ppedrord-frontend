@@ -1,99 +1,30 @@
+// src/App.jsx (Atualização)
+// Envolver a aplicação com AppThemeProvider
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from 'react-router-dom';
-import { ThemeProvider } from './contexts/ThemeContext';
+import CssBaseline from '@mui/material/CssBaseline';
+import AppThemeProvider from '@/contexts/ThemeContext';
+import MainLayout from '@/components/layout/MainLayout'; // Exemplo, você integrará o Router aqui
+import Typography from '@mui/material/Typography';
 
-// Layout Principal
-import MainLayout from './components/layout/MainLayout/MainLayout';
-
-// Páginas
-import HomePage from './pages/HomePage';
-import ArticlesPage from './pages/ArticlesPage';
-import DeployGuidePage from './pages/DeployGuidePage';
-import ContactPage from './pages/ContactPage';
-import NotFoundPage from './pages/NotFoundPage';
-
-// Navegação
-import {
-  homePageNavItems,
-  articlesPageSidebarNavItems,
-  articlesDataForNav,
-  deployGuidePageNavItems,
-} from './config/navigation';
+// Exemplo de página
+const HomePage = () => (
+  <Typography variant="h4" component="h1" gutterBottom>
+    Bem-vindo à Home Page!
+  </Typography>
+);
 
 function App() {
   return (
-    <ThemeProvider>
-      <Router>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <MainLayout sidebarNavItems={homePageNavItems} pageId="home-page">
-                <HomePage />
-              </MainLayout>
-            }
-          />
-          <Route
-            path="/articles"
-            element={
-              <MainLayout
-                sidebarNavItems={articlesPageSidebarNavItems}
-                pageId="articles-list-page"
-              >
-                <ArticlesPage />
-              </MainLayout>
-            }
-          />
-          {/* Rota para um artigo específico (exemplo, usando DeployGuidePage como detalhe do artigo) */}
-          <Route
-            path="/articles/deploy-guide-cdk"
-            element={
-              <MainLayout
-                sidebarNavItems={deployGuidePageNavItems}
-                pageId="deploy-guide-article-page"
-              >
-                <DeployGuidePage />
-              </MainLayout>
-            }
-          />
-          <Route
-            path="/contact"
-            element={
-              // ContactPage pode não ter um sidebar de navegação interna
-              <MainLayout sidebarNavItems={null} pageId="contact-page">
-                <ContactPage />
-              </MainLayout>
-            }
-          />
-          <Route
-            path="/deploy-guide" // Se for uma página independente também
-            element={
-              <MainLayout
-                sidebarNavItems={deployGuidePageNavItems}
-                pageId="deploy-guide-standalone-page"
-              >
-                <DeployGuidePage />
-              </MainLayout>
-            }
-          />
-          <Route
-            path="*"
-            element={
-              <MainLayout sidebarNavItems={null} pageId="not-found-page">
-                <NotFoundPage />
-              </MainLayout>
-            }
-          />
-          {/* Ou, se preferir redirecionar para a home em caso de 404: */}
-          {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
-        </Routes>
-      </Router>
-    </ThemeProvider>
+    <AppThemeProvider>
+      <CssBaseline />{' '}
+      {/* CssBaseline deve vir dentro do AppThemeProvider para usar o tema */}
+      {/* O RouterProvider do React Router virá aqui eventualmente */}
+      <MainLayout>
+        {/* As rotas serão renderizadas aqui como children do MainLayout */}
+        <HomePage />{' '}
+        {/* Exemplo simples, será substituído por <Outlet /> do router */}
+      </MainLayout>
+    </AppThemeProvider>
   );
 }
 

@@ -1,89 +1,99 @@
+// src/components/layout/Header/Header.jsx
 import React from 'react';
-import { Link, NavLink } from 'react-router-dom';
-import styles from './Header.module.css';
-import { useTheme } from '../../../contexts/ThemeContext'; // Ajuste o caminho se necessário
-import DarkModeToggle from '../../common/DarkModeToggle/DarkModeToggle'; // Ajuste o caminho
-import Button from '../../common/Button/Button'; // Ajuste o caminho
-import { LuMenu, LuX } from 'react-icons/lu'; // Importando LuMenu e LuX para o ícone do burger
+import DarkModeToggle from '@/components/common/DarkModeToggle'; // Usando alias
+
+// Importando os componentes necessários do MUI
+import { styled } from '@mui/material/styles';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
+
+// Importe outros componentes do MUI ou ícones que você possa precisar
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
 
 /**
- * Componente Header
- * @param {object} props
- * @param {function} props.onToggleSidebar - Função para alternar a visibilidade do sidebar.
- * @param {boolean} [props.showBurger=true] - Controla a exibição do botão burger.
- * @param {boolean} [props.isSidebarOpen=false] - Indica se o sidebar está atualmente aberto, para alterar o ícone do burger.
+ * @typedef {Object} HeaderProps
+ * @property {Function} [onDrawerToggle] - Função para lidar com o toggle do drawer em mobile (se aplicável).
  */
-function Header({ onToggleSidebar, showBurger = true, isSidebarOpen = false }) {
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
 
-  // Caminhos dos logos (assumindo que estão na pasta public)
-  // Se estiverem em src/assets, você precisaria importá-los:
-  // import logoBlackSVG from '../../assets/images/pb-logo-black.svg';
-  // import logoWhitePNG from '../../assets/images/pb-logo-white.png';
-  const logoBlackPath = '/pb-logo-black.svg'; // Da sua pasta public
-  const logoWhitePath = '/pb-logo-white.png'; // Da sua pasta public
+/**
+ * Componente Header da aplicação.
+ * Exibe o logo/título da aplicação e links de navegação principais.
+ * Utiliza AppBar e Toolbar do MUI para uma estrutura padrão.
+ *
+ * @param {HeaderProps} props - As props do componente.
+ * @returns {JSX.Element} O componente Header.
+ */
+const StyledAppBar = styled(AppBar)(({ theme }) => ({
+  // Você pode adicionar estilos customizados para o AppBar aqui se necessário,
+  // ou usar a prop `sx` diretamente na instância.
+  backgroundColor: theme.palette.background.paper,
+  boxShadow: theme.shadows[1],
+  // boxShadow: theme.shadows[1],
+  // backgroundColor:
+  //   theme.palette.mode === 'light'
+  //     ? theme.palette.grey[200]
+  //     : theme.palette.grey[800],
+  // color: theme.palette.text.secondary,
+}));
 
-  const currentLogo = isDark ? logoWhitePath : logoBlackPath;
 
-  // Links de navegação principais para o desktop
-  const navLinks = [
-    { path: '/', label: 'Home' },
-    { path: '/articles', label: 'Artigos' },
-    // Assumindo que Contato é uma página e não uma seção da HomePage
-    { path: '/contact', label: 'Contato' },
-    // { path: "/deploy-guide", label: "Guia Deploy" } // Exemplo de outra página
-  ];
 
+const LogoTypography = styled(Typography)(({ theme }) => ({
+  flexGrow: 1,
+  fontWeight: 'bold',
+  textDecoration: 'none',
+  color: 'inherit',
+  '&:hover': {
+    color: theme.palette.secondary.main,
+  },
+}));
+
+const NavLinkButton = styled(Button)(({ theme }) => ({
+  marginLeft: theme.spacing(2),
+  color: 'inherit',
+}));
+
+const Header = () => {
   return (
-    <header
-      className={styles.header}
-      data-dark={isDark ? 'true' : 'false'}
-      data-sidebar-open={isSidebarOpen ? 'true' : 'false'} // Para estilizar o ícone do burger
-    >
-      <div className={styles.container}>
-        <Link to="/" className={styles.logoLink} aria-label="Página Inicial">
-          <img
-            src={currentLogo}
-            alt="Logo Pedro Barbosa"
-            className={styles.logo}
-          />
-        </Link>
+    <StyledAppBar position="static">
+      <Container maxWidth="lg">
+        <Toolbar disableGutters>
+          <LogoTypography
+            variant="h6"
+            component="a"
+            href="/"
+            sx={{ textDecoration: 'none', color: 'inherit' }}
+          >
+            ppedrord
+          </LogoTypography>
 
-        <nav className={styles.navDesktop}>
-          {navLinks.map((link) => (
-            <NavLink
-              key={link.path}
-              to={link.path}
-              // NavLink adiciona a classe 'active' por padrão.
-              // O CSS em Header.module.css já estiliza .navItem.active
-              className={styles.navItem}
-            >
-              {link.label}
-            </NavLink>
-          ))}
-        </nav>
-
-        <div className={styles.actions}>
+          <Box sx={{ display: { xs: 'none', sm: 'flex' }, ml: 'auto' }}>
+            {' '}
+            <NavLinkButton component="a" href="/">
+              Home
+            </NavLinkButton>
+            <NavLinkButton component="a" href="/artigos">
+              Artigos
+            </NavLinkButton>
+            <NavLinkButton component="a" href="/portfolio">
+              Portfólio
+            </NavLinkButton>
+            <NavLinkButton component="a" href="/contato">
+              Contato
+            </NavLinkButton>
+          </Box>
           <DarkModeToggle />
-          {showBurger && (
-            <Button
-              onClick={onToggleSidebar}
-              variant="secondary" // Ou a variante que melhor se adequa do seu Button.jsx
-              iconOnly
-              aria-label={
-                isSidebarOpen ? 'Fechar menu lateral' : 'Abrir menu lateral'
-              }
-              className={styles.burger}
-              title={isSidebarOpen ? 'Fechar menu' : 'Abrir menu'}
-            >
-              {isSidebarOpen ? <LuX size={22} /> : <LuMenu size={22} />}
-            </Button>
-          )}
-        </div>
-      </div>
-    </header>
+          {/* Adicionar aqui o LanguageSelector na próxima etapa */}
+        </Toolbar>
+      </Container>
+    </StyledAppBar>
   );
-}
+};
 
 export default Header;

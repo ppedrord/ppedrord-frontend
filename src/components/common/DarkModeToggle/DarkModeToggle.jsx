@@ -1,30 +1,30 @@
-import React from 'react';
-import Button from '../Button/Button';
-import { LuMoonStar as Moon } from 'react-icons/lu';
-import { MdSunny as Sun } from 'react-icons/md';
-import styles from './DarkModeToggle.module.css';
-import { useTheme } from '../../../contexts/ThemeContext';
+// src/components/common/DarkModeToggle/DarkModeToggle.jsx
+import React from 'react'; // Já importado no contexto do build
+import IconButton from '@mui/material/IconButton';
+import Brightness4Icon from '@mui/icons-material/Brightness4'; // Ícone para modo escuro (lua)
+import Brightness7Icon from '@mui/icons-material/Brightness7'; // Ícone para modo claro (sol)
+import Tooltip from '@mui/material/Tooltip';
+import { useAppTheme } from '@/contexts/ThemeContext'; // Usando alias
 
-function DarkModeToggle() {
-  const { theme, toggleTheme } = useTheme();
-  const isDark = theme === 'dark';
+/**
+ * Componente DarkModeToggle.
+ * Permite ao usuário alternar entre os temas claro e escuro.
+ * @returns {JSX.Element} O componente de toggle.
+ */
+const DarkModeToggle = () => {
+  const { mode, toggleColorMode } = useAppTheme();
 
   return (
-    <Button
-      onClick={toggleTheme}
-      variant="secondary"
-      iconOnly
-      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-      className={styles.toggle}
+    <Tooltip
+      title={
+        mode === 'light' ? 'Mudar para tema escuro' : 'Mudar para tema claro'
+      }
     >
-      <Sun
-        className={`${styles.icon} ${styles.sun}  ${!isDark ? styles.visible : ''}`}
-      />
-      <Moon
-        className={`${styles.icon} ${styles.moon} ${isDark ? styles.visible : ''}`}
-      />
-    </Button>
+      <IconButton sx={{ ml: 1 }} onClick={toggleColorMode} color="inherit">
+        {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
+      </IconButton>
+    </Tooltip>
   );
-}
+};
 
 export default DarkModeToggle;
