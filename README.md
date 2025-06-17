@@ -1,12 +1,47 @@
-# React + Vite
+# ppedrord-frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este repositório contém o frontend do site pessoal de **Pedro Barbosa**. O projeto foi criado com [Vite](https://vitejs.dev/) e utiliza **React 19** para a camada de interface.
 
-Currently, two official plugins are available:
+O site funciona como uma Single Page Application, trazendo seções de portfólio, artigos técnicos e um guia de deploy, além de uma página de contato.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Principais funcionalidades
 
-## Expanding the ESLint configuration
+- Navegação SPA com **React Router**
+- Alternância de tema claro/escuro via `ThemeContext` e `useDarkMode`
+- Páginas de artigos e do guia de deploy com gráficos usando **Chart.js**
+- Componentes reutilizáveis organizados em `src/components`
+- Estilos isolados em **CSS Modules**
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Estrutura de pastas
+
+```
+├─ public/
+├─ src/
+│  ├─ components/   # componentes e layout
+│  ├─ pages/        # páginas da aplicação
+│  ├─ hooks/        # hooks personalizados
+│  ├─ contexts/     # contextos React (ex.: tema)
+│  ├─ assets/       # imagens e ícones
+│  └─ style/        # estilos globais
+└─ package.json
+```
+
+## Comandos
+
+- `npm install` – instala as dependências
+- `npm run dev` – executa o servidor de desenvolvimento
+- `npm run build` – gera a versão de produção
+- `npm run preview` – serve a build gerada
+- `npm run lint` – roda o ESLint
+- `npm run format` – formata o código com Prettier
+
+## Como rodar localmente
+
+1. Clone este repositório.
+2. Execute `npm install` para baixar as dependências.
+3. Rode `npm run dev` e acesse [http://localhost:5173](http://localhost:5173) para visualizar o site.
+
+## Deploy
+
+O deploy foi pensado para AWS utilizando um bucket S3 privado e distribuição via API Gateway. O passo a passo completo está documentado em `Guia de Projeto_ React + Vite + AWS.md`.
+
