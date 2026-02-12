@@ -8,26 +8,16 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    permissions:
+      id-token: write   # <- necessário para OIDC
+      contents: read    # <- necessário pro actions/checkout
+
     # Usa o ambiente GitHub correto para habilitar aprovações/segredos
     environment: ${{ github.ref_name == 'main' && 'prod' || github.ref_name }}
 
     steps:
-      # - name: Checkout repository
-      #   uses: actions/checkout@v4
-
-      # - name: Set up Node.js
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: "18"
-      #     cache: "npm"
-
-      # - name: Install dependencies
-      #   run: npm ci
-      #   shell: bash
-
-      # - name: Build project
-      #   run: npm run build
-      #   shell: bash
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       # Derive env tag (prod | hml | dev) para uso posterior
       - name: Set env tag
