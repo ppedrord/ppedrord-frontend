@@ -1,0 +1,301 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  overflow-x: hidden !important;
+}
+
+body {
+  background-color: #111010;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* header {
+  font-family: "Montserrat", sans-serif;
+  position: absolute;
+  justify-content: end;
+  width: 100%;
+  display: flex;
+  z-index: 9;
+} */
+
+section {
+  width: 100%;
+  display: flex;
+  padding: 7vw;
+  z-index: 4;
+}
+
+section {
+  h2 {
+    font-family: "Montserrat", sans-serif;
+    /* z-index: 5; */
+    /* font-size: 2rem; */
+    /* font-weight: 600; */
+    /* margin-bottom: 1rem; */
+  }
+}
+
+/* =============== Hero Section =============== */
+/* Hero Section */
+
+/* .hero-container::after {
+  content: "";
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(12, 1, 2, 0) 65%, #111010 100%);
+  z-index: 2;
+  pointer-events: none;
+} */
+.hero-right::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+
+  /* “vaza” para a direita até o fim do viewport */
+  right: -50vw;
+
+  background: linear-gradient(180deg, rgba(12, 1, 2, 0) 65%, #111010 100%);
+
+  z-index: 2; /* acima da foto */
+  pointer-events: none;
+}
+
+.hero-container .hero {
+  height: 100vh;
+
+  position: relative;
+
+  /* em vez de 100vw */
+  width: min(2560px, 100%, 90vw); /* limita a largura máxima (ajustável) */
+  margin: 0 auto; /* centraliza o container */
+
+  padding: 0 clamp(24px, 5vw, 80px); /* gutters laterais responsivos */
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  align-items: stretch; /* alinha verticalmente */
+  column-gap: clamp(16px, 2vw, 32px);
+}
+
+.hero-container .hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  width: 100vw;
+  left: 50%;
+  transform: translateX(-50%);
+
+  /* APENAS os gradientes “atrás” */
+  background:
+    linear-gradient(55deg, #111010 0%, #111010 45%, #8e8e8e 100%),
+    radial-gradient(
+      circle at 80% 35%,
+      rgba(255, 255, 255, 0.6) 0%,
+      rgba(255, 255, 255, 0) 55%
+    );
+
+  z-index: 1;
+}
+
+/* ====== Hero - Left Section ====== */
+.hero-container .hero .hero-left {
+  grid-column: 1 / 7;
+  grid-template-columns: repeat(6, 1fr);
+
+  /* layout estrutural do hero-left */
+  display: grid;
+  grid-template-rows: auto 1fr auto; /* topo (logo), meio (texto), baixo (social) */
+  align-items: stretch;
+
+  position: relative;
+
+  /* “safe area” / respiro do conteúdo em relação ao container */
+  padding-block: clamp(24px, 4vh, 56px);
+
+  .pb-logo {
+    grid-row: 1;
+    grid-column: 1 / 3;
+
+    justify-self: start; /* alinha no início da coluna */
+    align-self: start; /* gruda no topo da primeira linha */
+
+    margin-top: 0; /* agora o espaçamento vem do padding do hero-left */
+    width: clamp(80px, 6vw, 110px);
+    height: clamp(80px, 6vw, 110px);
+
+    display: block;
+
+    z-index: 3;
+
+    svg {
+      width: 100%;
+      height: 100%;
+
+      path {
+        fill: #bebebe;
+        stroke-width: 2%;
+        stroke: rgb(58, 130, 197);
+        stroke-dasharray: 512;
+        stroke-dashoffset: 512;
+      }
+    }
+  }
+
+  .hero-intro {
+    grid-row: 2;
+    grid-column: 2 / 7;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    font-family: "Raleway", sans-serif;
+    justify-self: start; /* fica alinhado à esquerda */
+    align-self: center; /* fica no meio vertical (linha do meio) */
+
+    margin: 0; /* remove margens que criam espaçamentos estranhos */
+
+    grid-column: 3 / 7; /* começa na 3 e vai até a linha 7 (fim da 6ª coluna) */
+
+    width: 100%; /* agora ele deve ocupar a largura do span do grid */
+    max-width: none; /* evita limitar e “puxar” pra esquerda */
+    z-index: 3;
+
+    h1 {
+      font-size: 6rem;
+      justify-content: start;
+      display: flex;
+      gap: 1rem;
+    }
+    h2 {
+      font-size: 2.5rem;
+      justify-content: center;
+      display: flex;
+      gap: 0.5rem;
+      transform: translateX(clamp(-100px, -7vw, -20px));
+    }
+
+    h3 {
+      font-size: 2rem;
+      justify-content: center;
+      font-weight: bold;
+      display: flex;
+      gap: 0.5rem;
+    }
+  }
+}
+
+.hero-container .hero .hero-left .social-container {
+  grid-row: 3;
+  grid-column: 4 / 6;
+
+  justify-self: start; /* alinha à esquerda (não ao centro) */
+  align-self: end; /* encosta no fundo da linha 3 */
+
+  display: flex;
+  gap: clamp(10px, 1.2vw, 18px);
+
+  margin-top: 0;
+  margin-bottom: clamp(16px, 3vh, 36px);
+
+  grid-column: 4 / 6; /* colunas 4 e 5 (termina na linha 6) */
+
+  z-index: 3;
+}
+
+.hero-container .hero .social-container > div {
+  width: clamp(52px, 4vw, 72px);
+  height: clamp(52px, 4vw, 72px);
+  border-radius: 14px; /* ou 25% se você preferir */
+  box-shadow: 1px 4px 4px 0px #727272;
+
+  display: grid; /* centraliza fácil */
+  place-items: center; /* centro perfeito */
+
+  a {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+
+    background-color: #c4c4c4;
+    border-radius: inherit;
+
+    padding: 12%; /* respiro interno (todos lados) */
+    box-shadow: 0 4px 4px 0px rgba(0, 0, 0, 0.45);
+
+    svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      transform: translateY(2%); /* “sobra” inferior visual */
+    }
+  }
+}
+
+/* ====== Hero - Right Section ====== */
+.hero-container .hero .hero-right {
+  /* background-color: red; */
+  flex: 0 0 clamp(420px, 45vw, 1280px); /* min / preferido / max */
+  position: relative;
+  overflow: visible;
+  grid-column: 7 / 13; /* ocupa colunas 7,8,9,10,11,12 */
+  isolation: isolate; /* cria um contexto de empilhamento “fechado” */
+  z-index: 1;
+}
+
+.hero-container .hero .hero-right .hero-photo-container {
+  overflow: hidden; /* agora o corte da foto fica aqui */
+  position: absolute;
+  inset: 0;
+  z-index: 1; /* foto abaixo do overlay */
+}
+
+.hero-container .hero .hero-right .hero-photo-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  margin: auto;
+
+  /* ajustes de enquadramento */
+  object-position: 100% 35%;
+  transform: scale(1.15);
+  transform-origin: center;
+  rotate: 3deg;
+}
+
+/* ============================================== */
+
+/* PRELOADER */
+#preloader {
+  width: 100%;
+  height: 100vh;
+  background-color: #8e8e8e;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-column: 1 / 13;
+
+  svg {
+    width: 20vw;
+    height: auto;
+
+    path {
+      fill: rgba(16, 15, 15, 0.364);
+      /* stroke-width: 4px; */
+      stroke: rgb(16, 15, 15);
+      stroke-dasharray: 1024;
+      stroke-dashoffset: 1024;
+    }
+  }
+}
