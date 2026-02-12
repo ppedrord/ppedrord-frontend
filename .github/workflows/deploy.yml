@@ -19,14 +19,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: npm ci
-        working-directory: frontend
-
-      - name: Build
-        run: npm run build
-        working-directory: frontend
-
       # Derive env tag (prod | hml | dev) para uso posterior
       - name: Set env tag
         id: envtag
@@ -50,5 +42,5 @@ jobs:
           audience: sts.amazonaws.com
 
       - name: Deploy static site to S3
-        run: aws s3 sync frontend/dist/ "s3://${{ vars.BUCKET_NAME }}" --delete
+        run: aws s3 sync . "s3://${{ vars.BUCKET_NAME }}" --delete
         shell: bash
